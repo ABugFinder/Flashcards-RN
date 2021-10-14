@@ -1,9 +1,12 @@
+import * as eva from '@eva-design/eva';
 import * as React from 'react';
 import { Button, View, Text ,StyleSheet } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Card } from '@ui-kitten/components';
+import CreateExam from './screens/CreateExam';
+import AllExams from './screens/AllExams';
 
 // Secciones de la documentacion Utilizadas
 // Navigation Prop
@@ -54,7 +57,14 @@ function HomeScreen({ navigation }) {
         title="Go to EditarTema"
         onPress={() => navigation.navigate('Edit')}
       />
-      <Button title="crear Tema"  />
+      <Button 
+        title="crear Tema"
+        onPress={() => navigation.navigate('Create Exam')}
+        />
+      <Button 
+        title="Examenes"
+        onPress={() => navigation.navigate('All Exams')}
+        />
       <Button title="Eliminar Tema"/>
 
     </View>
@@ -138,6 +148,8 @@ export default function App() {
               <HomeStack.Screen name="Home" component={HomeScreen} />
               <HomeStack.Screen name="Exam" component={ExamScreen} />
               <HomeStack.Screen name="Edit" component={EditScreen} />
+              <HomeStack.Screen name="Create Exam" component={CreateExam} />
+              <HomeStack.Screen name="All Exams" component={AllExams} />
 
             </HomeStack.Navigator>
           )}
