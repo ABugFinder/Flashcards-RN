@@ -13,9 +13,29 @@ import { ApplicationProvider} from '@ui-kitten/components';
     const [exams, setExams] = useState([]);
     const navigation = useNavigation();
     
+    useFocusEffect(
+        React.useCallback(() => {
+            getExams();
+        }, [])
+    );
+
+    const getExams = () => {
+        AsyncStorage.getItem("EXAMS").then((exams) =>{
+            setExams(JSON.parse(exams));
+        });
+    };
+
+    const renderItem = ({ item, index }) => (
+        <ListItem
+            title={`${item}`}
+        />
+
+    );
+
+
     return (
         <View>
-            <Text></Text>
+            <Text>{JSON.stringify(exams)}</Text>
         </View>
     );
   }

@@ -7,17 +7,30 @@ import { Value } from 'react-native-reanimated';
 
 
   export default function CreateExam() {
-    const [exam, setExam] = useState({
+
+    const initialData = {
         name: "",
         schoolMaterial: "",
-    });
+    }
+    const [exam, setExam] = useState(initialData);
     const navigation = useNavigation();
 
     const handleChange = (value, name) => {
         setExam({...exam, [name]: value});
     };
 
-    
+    const saveExam  = async () => {
+        const value = await AsyncStorage.getItem("EXAMS");
+        const ex = [];
+        ex.push(value ? JSON.parse(value) : []);
+
+        ex.push(exam);
+
+        await AsyncStorage.setItem("EXAMS", JSON.stringify(ex))
+        .then(() => navigation.navigate('All Exams'));
+
+        setExam(initialData);
+    };
 
     return (
         <View>
@@ -34,6 +47,7 @@ import { Value } from 'react-native-reanimated';
             />
             <Button //Te envia a la vista
                 title="Crear Examen"
+                onPress={saveExam}
             />
         </View>
     );
