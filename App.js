@@ -1,14 +1,13 @@
 import * as eva from '@eva-design/eva';
 import * as React from 'react';
+import CreateExam from './screens/CreateExam';
+import AllExams from './screens/AllExams';
 import { Button, View, Text ,StyleSheet, StatusBar, SafeAreaView, FlatList } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Card } from '@ui-kitten/components';
-import CreateExam from './screens/CreateExam';
-import AllExams from './screens/AllExams';
-import { color } from 'react-native-reanimated';
-import { Icon } from 'react-native-vector-icons'
+import { Ionicons } from '@expo/vector-icons';
+
 
 // Secciones de la documentacion Utilizadas
 // Navigation Prop
@@ -48,40 +47,13 @@ function LastTestScreen({ navigation }) {
 
 // -----------------------------------------------------------------------------------------
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-];
-
-
 function HomeScreen({ navigation }) {
-  const renderItem = ({ item }) => (
-    <Item title={item.title} />
-  );
+  
   return (
     <View>
       <StatusBar barStyle="light-content" backgroundColor="#004C8C" />
       <Text>Home Screen</Text>
-
-
-      <SafeAreaView style={styles.container}>
-      <FlatList
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
-      </SafeAreaView>
-
+      
       <Button //Simula enviandote a "empezar" el examen del tema
         title="Go to Exam"
         onPress={() => navigation.navigate('Exam')}
@@ -159,7 +131,32 @@ export default function App() {
 
   return (
     <NavigationContainer >
-      <Tab.Navigator screenOptions={{ headerShown: false}} 
+      <Tab.Navigator screenOptions={({route}) => ({
+        headerShown: false,
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            iconName = focused
+            ? 'home'
+            : 'home-outline';
+          } else if(route.name === 'Progress'){
+            iconName = focused
+            ? 'bar-chart'
+            : 'bar-chart-outline';
+          }else if(route.name === 'Calendar'){
+            iconName = focused
+            ? 'calendar'
+            : 'calendar-outline';
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+
+        },
+        tabBarActiveTintColor: '#fff',
+        tabBarInactiveTintColor: 'lightgray',
+        
+      })} 
         
         tabBarOptions={{
           activeTintColor: '#fff',
@@ -173,7 +170,7 @@ export default function App() {
         }} 
         initialRouteName = "Home" > 
 
-        <Tab.Screen name="Progress">
+        <Tab.Screen name="Progress" >
           {() => (
             <ProgressStack.Navigator>
               <ProgressStack.Screen
@@ -252,19 +249,4 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({ 
-  container: {
-    flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
-  },
-  item: {
-    backgroundColor: '#0278BD',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    marginBottom: 10
-  },
-  title: {
-    fontSize: 32,
-  },
-});
+
