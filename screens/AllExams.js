@@ -23,6 +23,8 @@ import { ApplicationProvider} from '@ui-kitten/components';
         AsyncStorage.getItem("EXAMS").then((exams) =>{
             setExams(JSON.parse(exams));
         });
+        console.log(exams);
+     
     };
 
     const renderItem = ({ item, index }) => (

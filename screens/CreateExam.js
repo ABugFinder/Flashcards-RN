@@ -25,10 +25,11 @@ import {Ionicons} from '@expo/vector-icons'
 
     const saveExam  = async () => {
         const value = await AsyncStorage.getItem("EXAMS");
-        const ex = [];
-        ex.push(value ? JSON.parse(value) : []);
+        const ex = (value ? JSON.parse(value) : []);
 
         ex.push(exam);
+
+        console.log(exam);
 
         await AsyncStorage.setItem("EXAMS", JSON.stringify(ex))
         .then(() => navigation.navigate('All Exams'));
