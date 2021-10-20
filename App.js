@@ -2,11 +2,13 @@ import * as eva from '@eva-design/eva';
 import * as React from 'react';
 import CreateExam from './screens/CreateExam';
 import AllExams from './screens/AllExams';
-import { Button, View, Text ,StyleSheet, StatusBar, SafeAreaView, FlatList } from 'react-native';
+import { Button, View, Text ,StyleSheet, StatusBar, SafeAreaView, FlatList, Pressable, ScrollView } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons'; 
+
 
 
 // Secciones de la documentacion Utilizadas
@@ -18,7 +20,41 @@ import { Ionicons } from '@expo/vector-icons';
 // Moving Between Screens
 // -----------------------------------------------------------------------------------------
 
+const DATA = [
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    title: 'First Item',
+  },
+  {
+    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+    title: 'Second Item',
+  },
+  {
+    id: '58694a0f-3da1-471f-bd96-145571e29d72',
+    title: 'Third Item',
+  },
+  {
+    id: '58694a0f-3da1-471f-bd96-145571e29d76',
+    title: 'Forth Item',
+  },
+];
 
+const Item = ({ title }) => (
+  <View style={styles.itemCard}>
+    <View style={styles.titleCard}>
+      <Text style={styles.textCard}>{title}</Text>
+    </View>
+    <View style={styles.buttonSpace} >
+      <Pressable >
+        <Text style={styles.buttonEmpezar}>Empezar</Text>
+      </Pressable>
+      <Pressable >
+        <Text style={styles.buttonEdit}>Editar</Text>
+      </Pressable>
+    </View>
+   
+  </View>
+);
 
 //------------------------------------------------------------------------------------------
 function ProgressScreen({ navigation }) {
@@ -48,29 +84,22 @@ function LastTestScreen({ navigation }) {
 // -----------------------------------------------------------------------------------------
 
 function HomeScreen({ navigation }) {
-  
+  const renderItem = ({ item }) => <Item title={item.title} />;
+
   return (
     <View>
       <StatusBar barStyle="light-content" backgroundColor="#004C8C" />
-      <Text>Home Screen</Text>
-      
-      <Button //Simula enviandote a "empezar" el examen del tema
-        title="Go to Exam"
-        onPress={() => navigation.navigate('Exam')}
-      />
-      <Button //Simula enviandote a "editar" las preguntas de el tema creado
-        title="Go to EditarTema"
-        onPress={() => navigation.navigate('Edit')}
-      />
-      <Button 
-        title="crear Tema"
-        onPress={() => navigation.navigate('Create Exam')}
-        />
-      <Button 
-        title="Examenes"
-        onPress={() => navigation.navigate('All Exams')}
-        />
-      <Button title="Eliminar Tema"/>
+      <SafeAreaView>
+        <ScrollView>
+        <FlatList data={DATA} numColumns={2} style={styles.container} renderItem={renderItem} keyExtractor={item => item.id} />
+        </ScrollView>
+      </SafeAreaView>
+  
+      <Pressable
+      style={styles.floatingButton}
+      onPress={() => navigation.navigate('Create Exam')}>
+        <Text style={{color: 'white'}}><AntDesign name="plus" size={32} color="white" /></Text>
+      </Pressable>
 
     </View>
   );
@@ -117,17 +146,13 @@ const Tab = createBottomTabNavigator();
 const ProgressStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
 const CalendarStack = createNativeStackNavigator();
-const Item = ({title}) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-  </View>
-);
+
+
+
 
 //Cada Tab.Screen es un boton del bottom navigator, y de ahi cada uno parte con sus vistas agisnadas a ese Tab
 
 export default function App() {
-
- 
 
   return (
     <NavigationContainer >
@@ -249,4 +274,93 @@ export default function App() {
   );
 }
 
+const styles = StyleSheet.create({ 
+  container: {
+    margin: 20,
+    alignContent: 'center',
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0,
+  },
+  itemCard: {
+    alignItems: 'center',
+    alignContent: 'center',
+    marginVertical: 5,
+    marginHorizontal: 5,
+    marginTop: 10,
+    height: 100,
+    width: 150,
+    backgroundColor: '#fff',
+    shadowColor: "#ECECEC",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    
+    elevation: 4,
+
+  },
+  buttonSpace:{
+    flex:1,
+    flexDirection: 'row',
+    margin: 5,
+    height: 50,
+    alignContent: 'space-between',
+    alignItems: 'center'
+
+    
+  },
+  buttonEmpezar: {
+    marginTop: 5,
+    padding: 5,
+    color: '#2E7D32',
+    fontSize: 15,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+
+  },
+
+  buttonEdit: {
+    marginTop: 5,
+
+    padding: 5,
+    color: '#FF5F52',
+    fontSize: 15,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+
+
+
+  },
+  titleCard:{
+    height:50,
+    width: 150,
+    padding: 10,
+    backgroundColor: '#58A5F0',
+    alignContent: 'center',
+    alignItems: 'center',
+  },
+  textCard: {
+    fontSize: 20,
+    color: '#fff',
+  },
+  floatingButton: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      resizeMode: 'contain',
+      width: 75,
+      height: 75,
+      borderRadius: 50,
+      backgroundColor: '#2E7D32',
+      position: 'absolute',
+      right: 20,
+      top: 475,
+     
+      
+    }
+});
 

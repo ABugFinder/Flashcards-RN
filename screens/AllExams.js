@@ -24,6 +24,7 @@ import { ApplicationProvider} from '@ui-kitten/components';
             setExams(JSON.parse(exams));
         });
         console.log(exams);
+       // AsyncStorage.clear(); borra todo 
      
     };
 
@@ -37,7 +38,7 @@ import { ApplicationProvider} from '@ui-kitten/components';
 
     return (
         <View>
-            <Text>{JSON.stringify(exams)}</Text>
+            <Text>{JSON.stringify(exams[0].name)}</Text>
         </View>
     );
   }
