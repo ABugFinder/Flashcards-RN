@@ -1,13 +1,13 @@
 import * as eva from '@eva-design/eva';
 import * as React from 'react';
-import CreateExam from './screens/CreateExam';
-import AllExams from './screens/AllExams';
 import { Button, View, Text ,StyleSheet, StatusBar, SafeAreaView, FlatList, Pressable, ScrollView } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons'; 
+import CreateTest from './screens/CreateTest';
+import AllTests from './screens/AllTests';
 
 
 
@@ -97,7 +97,7 @@ function HomeScreen({ navigation }) {
   
       <Pressable
       style={styles.floatingButton}
-      onPress={() => navigation.navigate('Create Exam')}>
+      onPress={() => navigation.navigate('Create Test')}>
         <Text style={{color: 'white'}}><AntDesign name="plus" size={32} color="white" /></Text>
       </Pressable>
 
@@ -244,13 +244,13 @@ export default function App() {
                   headerStyle:{
                     backgroundColor: '#0278BD'
                   }
-                }} name="Create Exam" component={CreateExam} />
+                }} name="Create Test" component={CreateTest} />
               <HomeStack.Screen options={{
                   headerTintColor: '#fff',
                   headerStyle:{
                     backgroundColor: '#0278BD'
                   }
-                }} name="All Exams" component={AllExams} />
+                }} name="All Tests" component={AllTests} />
 
             </HomeStack.Navigator>
           )}

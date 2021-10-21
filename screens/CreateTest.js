@@ -1,3 +1,4 @@
+//View of create Test
 import * as eva from '@eva-design/eva';
 import * as React from 'react';
 import { Button, View, AsyncStorage, TextInput , Text, Animated, TouchableWithoutFeedback, StyleSheet , Pressable } from 'react-native';
@@ -10,31 +11,37 @@ import {Ionicons} from '@expo/vector-icons'
     );
 
 
-  export default function CreateExam() {
+  export default function CreateTest() {
 
+    //Object creation with state
     const initialData = {
         name: "",
         schoolMaterial: "",
+        Questions: {},
     }
-    const [exam, setExam] = useState(initialData);
+    const [test, setTest] = useState(initialData);
+
+    //Navigator
     const navigation = useNavigation();
 
+    //Function to change values of the object
     const handleChange = (value, name) => {
-        setExam({...exam, [name]: value});
+        setTest({...test, [name]: value});
     };
 
-    const saveExam  = async () => {
-        const value = await AsyncStorage.getItem("EXAMS");
+    //Function to save new Test in the token TESTS
+    const saveTest  = async () => {
+        const value = await AsyncStorage.getItem("TESTS");
         const ex = (value ? JSON.parse(value) : []);
 
-        ex.push(exam);
+        ex.push(test);
 
-        console.log(exam);
+        console.log(test);
 
-        await AsyncStorage.setItem("EXAMS", JSON.stringify(ex))
-        .then(() => navigation.navigate('All Exams'));
+        await AsyncStorage.setItem("TESTS", JSON.stringify(ex))
+        .then(() => navigation.navigate('Home'));
 
-        setExam(initialData);
+        setTest(initialData);
     };
 
 
@@ -44,7 +51,7 @@ import {Ionicons} from '@expo/vector-icons'
         return (
 
             <View style={styles.top}>
-                <Text>{JSON.stringify(exam)}</Text>
+                <Text>{JSON.stringify(test)}</Text>
                 <Separator/>
                 <TextInput
                     style= {styles.form}
@@ -61,7 +68,7 @@ import {Ionicons} from '@expo/vector-icons'
                 />
                 <Pressable //Te envia a la vista
                     style={styles.buttonCreate}
-                    onPress={saveExam}>
+                    onPress={saveTest}>
                         <Text style={{color: 'white'}}><Ionicons name="checkmark-sharp" size={32} color="white" /></Text>
                 </Pressable>
             </View>

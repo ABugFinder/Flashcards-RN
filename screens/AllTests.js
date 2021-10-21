@@ -9,7 +9,7 @@ import { ApplicationProvider} from '@ui-kitten/components';
 
 
 
-  export default function AllExams() {
+  export default function AllTests() {
     const [exams, setExams] = useState([]);
     const navigation = useNavigation();
     
