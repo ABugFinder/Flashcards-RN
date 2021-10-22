@@ -90,8 +90,8 @@ function HomeScreen({ navigation }) {
     <View>
       <StatusBar barStyle="light-content" backgroundColor="#004C8C" />
       <SafeAreaView>
-        <ScrollView>
-        <FlatList data={DATA} numColumns={2} style={styles.container} renderItem={renderItem} keyExtractor={item => item.id} />
+        <ScrollView prop nestedScrollEnabled={true}>
+          <FlatList nestedScrollEnabled={true}  data={DATA} numColumns={2} style={styles.container} renderItem={renderItem} keyExtractor={item => item.id} />
         </ScrollView>
       </SafeAreaView>
   
