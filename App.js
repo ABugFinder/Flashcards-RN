@@ -2,11 +2,13 @@ import * as eva from '@eva-design/eva';
 import * as React from 'react';
 import CreateExam from './screens/CreateExam';
 import AllExams from './screens/AllExams';
-import { Button, View, Text ,StyleSheet, StatusBar, SafeAreaView, FlatList } from 'react-native';
+import { Button, View, Text ,StyleSheet, StatusBar, SafeAreaView, FlatList, VirtualizedList, Pressable } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons'; 
+
 
 
 // Secciones de la documentacion Utilizadas
@@ -18,7 +20,31 @@ import { Ionicons } from '@expo/vector-icons';
 // Moving Between Screens
 // -----------------------------------------------------------------------------------------
 
+const DATA = [];
 
+    const getItem = (data, index) => ({
+    id: Math.random().toString(12).substring(0),
+    title: `Item ${index + 1}`,
+    });
+
+    const getItemCount = data => 50;
+
+    const Item = ({ title }) => (
+      <View style={styles.itemCard}>
+      <View style={styles.titleCard}>
+        <Text style={styles.textCard}>{title}</Text>
+      </View>
+      <View style={styles.buttonSpace} >
+        <Pressable >
+          <Text style={styles.buttonEmpezar}>Empezar</Text>
+        </Pressable>
+        <Pressable >
+          <Text style={styles.buttonEdit}>Editar</Text>
+        </Pressable>
+      </View>
+     
+    </View>
+    );
 
 //------------------------------------------------------------------------------------------
 function ProgressScreen({ navigation }) {
@@ -50,29 +76,24 @@ function LastTestScreen({ navigation }) {
 function HomeScreen({ navigation }) {
   
   return (
-    <View>
+    <SafeAreaView>
       <StatusBar barStyle="light-content" backgroundColor="#004C8C" />
-      <Text>Home Screen</Text>
-      
-      <Button //Simula enviandote a "empezar" el examen del tema
-        title="Go to Exam"
-        onPress={() => navigation.navigate('Exam')}
+      <VirtualizedList
+        data={DATA}
+        initialNumToRender={4}
+        renderItem={({ item }) => <Item title={item.title}  />}
+        keyExtractor={item => item.key}
+        getItemCount={getItemCount}
+        getItem={getItem}
+        style={styles.container}
+       
       />
-      <Button //Simula enviandote a "editar" las preguntas de el tema creado
-        title="Go to EditarTema"
-        onPress={() => navigation.navigate('Edit')}
-      />
-      <Button 
-        title="crear Tema"
-        onPress={() => navigation.navigate('Create Exam')}
-        />
-      <Button 
-        title="Examenes"
-        onPress={() => navigation.navigate('All Exams')}
-        />
-      <Button title="Eliminar Tema"/>
-
-    </View>
+       <Pressable
+      style={styles.floatingButton}
+      onPress={() => navigation.navigate('Create Exam')}>
+        <Text style={{color: 'white'}}><AntDesign name="plus" size={32} color="white" /></Text>
+      </Pressable>
+    </SafeAreaView>
   );
 }
 
@@ -117,11 +138,7 @@ const Tab = createBottomTabNavigator();
 const ProgressStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
 const CalendarStack = createNativeStackNavigator();
-const Item = ({title}) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-  </View>
-);
+
 
 //Cada Tab.Screen es un boton del bottom navigator, y de ahi cada uno parte con sus vistas agisnadas a ese Tab
 
@@ -248,5 +265,94 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({ 
+  container: {
+    margin: 20,
+    alignContent: 'center',
+    marginTop: StatusBar.currentHeight || 0,
+  },
+  itemCard: {
+    alignItems: 'center',
+    alignContent: 'center',
+    marginVertical: 5,
+    marginHorizontal: 5,
+    marginTop: 10,
+    height: 100,
+    width: 300,
+    backgroundColor: '#fff',
+    shadowColor: "#ECECEC",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    
+    elevation: 4,
+
+  },
+  buttonSpace:{
+    flex:1,
+    flexDirection: 'row',
+    margin: 5,
+    height: 50,
+    alignContent: 'space-between',
+    alignItems: 'center'
+
+    
+  },
+  buttonEmpezar: {
+    marginTop: 5,
+    padding: 5,
+    color: '#2E7D32',
+    fontSize: 15,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+
+  },
+
+  buttonEdit: {
+    marginTop: 5,
+
+    padding: 5,
+    color: '#FF5F52',
+    fontSize: 15,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+
+
+
+  },
+  titleCard:{
+    height:50,
+    width: 300,
+    padding: 10,
+    backgroundColor: '#58A5F0',
+    alignContent: 'center',
+    alignItems: 'center',
+  },
+  textCard: {
+    fontSize: 20,
+    color: '#fff',
+  },
+  floatingButton: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      resizeMode: 'contain',
+      width: 75,
+      height: 75,
+      borderRadius: 50,
+      backgroundColor: '#2E7D32',
+      position: 'absolute',
+      right: 20,
+      top: 475,
+     
+      
+    }
+});
 
 

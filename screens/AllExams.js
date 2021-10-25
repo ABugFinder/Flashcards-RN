@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import * as eva from '@eva-design/eva';
-import { Button, View ,StyleSheet, AsyncStorage, Text, List, ListItem, Divider, Layout} from 'react-native';
+import { Button, View ,StyleSheet, AsyncStorage, Text, List, ListItem, Divider, Layout, SafeAreaView, VirtualizedList, StatusBar} from 'react-native';
 import {NavigationContainer, useNavigation, useFocusEffect} from '@react-navigation/native';
 import { ApplicationProvider} from '@ui-kitten/components';
-
-
 
 
 

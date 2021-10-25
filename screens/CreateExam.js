@@ -4,7 +4,7 @@ import { Button, View, AsyncStorage, TextInput , Text, Animated, TouchableWithou
 import { useNavigation} from '@react-navigation/native';
 import { useState } from 'react';
 import { color, Value } from 'react-native-reanimated';
-import {Ionicons} from '@expo/vector-icons'
+import {Ionicons} from '@expo/vector-icons';
     const Separator = () => (
         <View style={styles.separator} />
     );
@@ -36,6 +36,24 @@ import {Ionicons} from '@expo/vector-icons'
 
         setExam(initialData);
     };
+
+    function Box() {
+        const offset = useSharedValue(0);
+      
+        const defaultSpringStyles = useAnimatedStyle(() => {
+          return {
+            transform: [{ translateY: withSpring(offset.value * 255) }],
+          };
+        });
+      
+        
+        return (
+          <>
+            <Animated.View style={[styles.box, defaultSpringStyles]} />
+            <Button onPress={() => (offset.value = Math.random())} title="Move" />
+          </>
+        );
+      }
 
 
 
